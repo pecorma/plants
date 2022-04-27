@@ -1,12 +1,106 @@
 buildscript {
-    ext {
-        compose_version = '1.0.1'
+    dependencies {
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.41")
     }
-}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+}
+
 plugins {
     id 'com.android.application' version '7.1.3' apply false
     id 'com.android.library' version '7.1.3' apply false
-    id 'org.jetbrains.kotlin.android' version '1.5.21' apply false
+    id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+    id 'com.diffplug.spotless' version '6.3.0' apply false
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10' apply false
+}
+
+ext {
+    compileSdkVersion = 31
+    minSdkVersion = 26
+    targetSdkVersion = 31
+    jvmTarget = '1.8'
+
+    versions = [
+            accompanist            : '0.24.4-alpha',
+            appcompat              : '1.4.1',
+            coil                   : '2.0.0-rc03',
+            compose                : '1.2.0-alpha08',
+            constraintlayout       : '2.1.3',
+            corektx                : '1.9.0-alpha02',
+            corenlp                : '4.4.0',
+            hilt                   : '2.41',
+            hiltNavigation         : '1.0.0',
+            ktlint                 : '0.43.1',
+            lifecycle              : '2.4.1',
+            material3              : '1.0.0-alpha09',
+            navigation             : '2.4.2',
+            okhttp                 : '4.9.3',
+            retrofit               : '2.9.0',
+            serialization          : '1.3.2',
+            serializationConverter : '0.8.0',
+            window                 : '1.0.0'
+    ]
+}
+
+subprojects {
+    apply plugin: "com.diffplug.spotless"
+
+    project.plugins.whenPluginAdded { plugin ->
+        def isAndroidApp = "com.android.build.gradle.AppPlugin".equals(plugin.class.name)
+        def isAndroidLibrary = "com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)
+
+        if (isAndroidApp || isAndroidLibrary) {
+            project.android {
+                buildFeatures.viewBinding true
+                buildFeatures.compose true
+
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                defaultConfig.minSdkVersion rootProject.ext.minSdkVersion
+                defaultConfig.targetSdkVersion rootProject.ext.targetSdkVersion
+
+                defaultConfig.vectorDrawables.useSupportLibrary = true
+
+                compileOptions.sourceCompatibility JavaVersion.VERSION_1_8
+                compileOptions.targetCompatibility JavaVersion.VERSION_1_8
+
+                composeOptions {
+                    kotlinCompilerExtensionVersion "${rootProject.ext.versions.compose}"
+                }
+
+                packagingOptions {
+                    exclude "META-INF/licenses/**"
+                    exclude "META-INF/AL2.0"
+                    exclude "META-INF/LGPL2.1"
+                }
+            }
+        }
+
+        if (isAndroidApp) {
+            afterEvaluate {
+                assembleDebug.dependsOn 'spotlessApply'
+            }
+        } else if (isAndroidLibrary) {
+            afterEvaluate {
+                preBuild.dependsOn 'spotlessApply'
+            }
+        }
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            allWarningsAsErrors = project.hasProperty("warningsAsErrors") ? project.warningsAsErrors : false
+            jvmTarget = "1.8"
+            freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
+            freeCompilerArgs += '-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi'
+            freeCompilerArgs += '-Xopt-in=kotlinx.coroutines.FlowPreview'
+            freeCompilerArgs += '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi'
+        }
+    }
+
+    spotless {
+        kotlin {
+            target '**/*.kt'
+            ktlint("${versions.ktlint}")
+        }
+    }
 }
 
 task clean(type: Delete) {
