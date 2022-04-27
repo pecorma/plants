@@ -19,7 +19,7 @@ private val Domine = FontFamily(
     Font(R.font.domine_bold, FontWeight.Bold)
 )
 
-val JetnewsTypography = Typography(
+val Typography = Typography(
     defaultFontFamily = Montserrat,
     h4 = TextStyle(
         fontWeight = FontWeight.SemiBold,
