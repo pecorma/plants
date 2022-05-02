@@ -33,7 +33,6 @@ android {
 dependencies {
     implementation("androidx.core:core-ktx:${versions.corektx}")
     implementation("androidx.appcompat:appcompat:${versions.appcompat}")
-    implementation("com.google.android.material:material:${versions.material}")
     implementation("androidx.constraintlayout:constraintlayout:${versions.constraintlayout}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}")

@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 
 sealed class Screen(val route: String) {
     object Home : Screen("home")
+    object Profile : Screen("profile")
 }
 
 @Composable
@@ -24,10 +25,10 @@ fun rememberJetcasterAppState(
     navController: NavHostController = rememberNavController(),
     context: Context = LocalContext.current
 ) = remember(navController, context) {
-    JetcasterAppState(navController, context)
+    AppState(navController, context)
 }
 
-class JetcasterAppState(
+class AppState(
     val navController: NavHostController,
     private val context: Context
 ) {
@@ -42,7 +43,6 @@ class JetcasterAppState(
         navController.popBackStack()
     }
 
-    @Suppress("DEPRECATION")
     private fun checkIfOnline(): Boolean {
         val cm = ContextCompat.getSystemService(context, ConnectivityManager::class.java)
 
