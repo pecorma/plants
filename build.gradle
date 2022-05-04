@@ -19,17 +19,18 @@ ext {
     jvmTarget = '1.8'
 
     versions = [
-            accompanist            : '0.24.4-alpha',
+            accompanist            : '0.24.5-alpha',
             appcompat              : '1.4.1',
             coil                   : '2.0.0-rc03',
             compose                : '1.2.0-alpha08',
-            constraintlayout       : '2.1.3',
+            constraintlayout       : '1.0.0',
             corektx                : '1.9.0-alpha03',
-            corenlp                : '4.4.0',
+            googlePlay             : '18.0.2',
             hilt                   : '2.41',
             hiltNavigation         : '1.0.0',
             ktlint                 : '0.43.1',
             lifecycle              : '2.4.1',
+            map                    : '2.1.0',
             material3              : '1.0.0-alpha10',
             navigation             : '2.4.2',
             okhttp                 : '4.9.3',
@@ -92,6 +93,7 @@ subprojects {
             freeCompilerArgs += '-opt-in=kotlinx.serialization.ExperimentalSerializationApi'
             freeCompilerArgs += '-opt-in=kotlinx.coroutines.FlowPreview'
             freeCompilerArgs += '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi'
+            freeCompilerArgs += '-opt-in=com.google.accompanist.pager.ExperimentalPagerApi'
         }
     }
 

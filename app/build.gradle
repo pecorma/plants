@@ -33,11 +33,11 @@ android {
 dependencies {
     implementation("androidx.core:core-ktx:${versions.corektx}")
     implementation("androidx.appcompat:appcompat:${versions.appcompat}")
-    implementation("androidx.constraintlayout:constraintlayout:${versions.constraintlayout}")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}")
     implementation("androidx.navigation:navigation-fragment-ktx:${versions.navigation}")
     implementation("androidx.navigation:navigation-ui-ktx:${versions.navigation}")
+    implementation("androidx.constraintlayout:constraintlayout-compose:${versions.constraintlayout}")
 
     implementation("androidx.compose.foundation:foundation:${versions.compose}")
     implementation("androidx.compose.foundation:foundation-layout:${versions.compose}")
@@ -56,6 +56,10 @@ dependencies {
     implementation("androidx.window:window:${versions.window}")
     implementation("androidx.navigation:navigation-compose:${versions.navigation}")
     implementation("com.google.accompanist:accompanist-systemuicontroller:${versions.accompanist}")
+    implementation("com.google.accompanist:accompanist-pager:${versions.accompanist}")
+    implementation("com.google.accompanist:accompanist-pager-indicators:${versions.accompanist}")
+    implementation("com.google.maps.android:maps-compose:${versions.map}")
+    implementation("com.google.android.gms:play-services-maps:${versions.googlePlay}")
 
     implementation("androidx.hilt:hilt-navigation-compose:${versions.hiltNavigation}")
     implementation("com.google.dagger:hilt-android:${versions.hilt}")
