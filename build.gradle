@@ -10,6 +10,7 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.6.20' apply false
     id 'com.diffplug.spotless' version '6.3.0' apply false
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.20' apply false
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin' version '2.0.1' apply false
 }
 
 ext {
@@ -20,12 +21,14 @@ ext {
 
     versions = [
             accompanist            : '0.24.5-alpha',
+            accompanistPermissions : '0.24.7-alpha',
             appcompat              : '1.4.1',
             coil                   : '2.0.0-rc03',
             compose                : '1.2.0-alpha08',
             constraintlayout       : '1.0.0',
             corektx                : '1.9.0-alpha03',
-            googlePlay             : '18.0.2',
+            googlePlayMap          : '18.0.2',
+            googlePlayLocation     : '19.0.1',
             hilt                   : '2.41',
             hiltNavigation         : '1.0.0',
             ktlint                 : '0.43.1',
@@ -94,6 +97,7 @@ subprojects {
             freeCompilerArgs += '-opt-in=kotlinx.coroutines.FlowPreview'
             freeCompilerArgs += '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi'
             freeCompilerArgs += '-opt-in=com.google.accompanist.pager.ExperimentalPagerApi'
+            freeCompilerArgs += '-opt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi'
         }
     }
 
