@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 sealed class Screen(val route: String) {
     object Home : Screen("home")
     object Profile : Screen("profile")
+    object Map : Screen("map")
 }
 
 @Composable
