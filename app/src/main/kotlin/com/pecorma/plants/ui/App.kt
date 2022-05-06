@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.pecorma.plants.ui.map.Map
 import com.pecorma.plants.ui.map.MapScreen
 import com.pecorma.plants.ui.profile.ProfileScreen
+import com.pecorma.plants.ui.watchers.WatchersScreen
 
 @Composable
 fun App(
@@ -17,13 +18,16 @@ fun App(
     if (appState.isOnline) {
         NavHost(
             navController = appState.navController,
-            startDestination = Screen.Map.route
+            startDestination = Screen.Profile.route
         ) {
             composable(Screen.Profile.route) {
                 ProfileScreen()
             }
             composable(Screen.Map.route) {
                 MapScreen()
+            }
+            composable(Screen.Watchers.route) {
+                WatchersScreen()
             }
         }
     } else {

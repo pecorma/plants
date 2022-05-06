@@ -6,9 +6,10 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColorScheme(
-    primary = Blue80,
+    primary = BlueGreen50,
     onPrimary = Blue20,
     primaryContainer = Blue30,
     onPrimaryContainer = Blue90,
@@ -25,13 +26,13 @@ private val DarkColorPalette = darkColorScheme(
     onError = Red20,
     errorContainer = Red30,
     onErrorContainer = Red90,
-    background = Grey20,
+    background = BlueGreen10,
     onBackground = Grey90,
-    surface = Grey10,
+    surface = BlueGreen15,
     onSurface = Grey80,
     inverseSurface = Grey90,
     inverseOnSurface = Grey20,
-    surfaceVariant = BlueGrey30,
+    surfaceVariant = BlueGreen15,
     onSurfaceVariant = BlueGrey80,
     outline = BlueGrey60
 )
@@ -67,7 +68,9 @@ private val LightColorPalette = lightColorScheme(
 
 @Composable
 fun PlantsTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (true) {
+    val systemUiController = rememberSystemUiController()
+    val colors = if (darkTheme) {
+        systemUiController.setStatusBarColor(DarkColorPalette.background)
         DarkColorPalette
     } else {
         LightColorPalette

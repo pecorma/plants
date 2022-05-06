@@ -1,5 +1,6 @@
 package com.pecorma.plants.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -19,6 +20,7 @@ sealed class Screen(val route: String) {
     object Home : Screen("home")
     object Profile : Screen("profile")
     object Map : Screen("map")
+    object Watchers : Screen("watchers")
 }
 
 @Composable
@@ -44,9 +46,9 @@ class AppState(
         navController.popBackStack()
     }
 
+    @SuppressLint("MissingPermission")
     private fun checkIfOnline(): Boolean {
         val cm = ContextCompat.getSystemService(context, ConnectivityManager::class.java)
-
         val capabilities = cm?.getNetworkCapabilities(cm.activeNetwork) ?: return false
         return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
             capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)

@@ -20,15 +20,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.maps.android.compose.CameraPositionState
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import com.pecorma.plants.ui.Loading
+import com.pecorma.plants.ui.MapView
 
 @Composable
 fun MapScreen(viewModel: MapsViewModel = hiltViewModel()) {
@@ -53,16 +48,11 @@ fun MapScreen(viewModel: MapsViewModel = hiltViewModel()) {
 @SuppressLint("MissingPermission")
 @Composable
 fun Map(state: MapState, onMapLoad: () -> Unit) {
-    val cameraPositionState: CameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(state.currentLocation, 14.5f)
-    }
     val markerState = rememberMarkerState(position = state.currentLocation)
-
-    GoogleMap(
+    MapView(
         modifier = Modifier.fillMaxSize(),
-        properties = MapProperties(maxZoomPreference = 17.0f, minZoomPreference = 13.0f, mapType = MapType.NORMAL),
-        cameraPositionState = cameraPositionState,
-        onMapLoaded = onMapLoad
+        currentLocation = state.currentLocation,
+        onMapLoad = onMapLoad
     ) {
         Marker(state = markerState)
     }

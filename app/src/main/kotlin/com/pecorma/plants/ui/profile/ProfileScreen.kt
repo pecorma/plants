@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TabRow
@@ -30,9 +34,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -40,6 +47,11 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.Circle
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapUiSettings
+import com.pecorma.plants.ui.MapView
 import com.pecorma.plants.ui.theme.utils.ClearRippleTheme
 import kotlinx.coroutines.launch
 
@@ -48,6 +60,7 @@ fun ProfileScreen() {
     Surface(modifier = Modifier.fillMaxSize(),) {
         val tabIndex = remember { mutableStateOf(0) }
         val pagerState = rememberPagerState()
+        val scrollState = rememberLazyListState()
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -103,7 +116,8 @@ fun ProfileScreen() {
             }
             ProfileHorizontalPager(
                 modifier = Modifier.fillMaxSize(),
-                pagerState = pagerState
+                pagerState = pagerState,
+                scrollState = scrollState
             )
         }
     }
@@ -112,7 +126,8 @@ fun ProfileScreen() {
 @Composable
 fun ProfileHorizontalPager(
     modifier: Modifier = Modifier,
-    pagerState: PagerState
+    pagerState: PagerState,
+    scrollState: LazyListState
 ) {
     HorizontalPager(
         modifier = modifier,
@@ -121,7 +136,7 @@ fun ProfileHorizontalPager(
         state = pagerState
     ) {
         when (currentPage) {
-            0 -> Text(text = "Layout 1")
+            0 -> ProfileAboutSection(scrollState)
             1 -> Text(text = "Layout 2")
             2 -> Text(text = "Layout 3")
         }
@@ -174,6 +189,55 @@ fun ProfileTabLayout(
     }
 }
 
+val aboutText = LoremIpsum(100).values.joinToString(" ")
+
+@Composable
+fun ProfileAboutSection(scrollState: LazyListState) {
+    LazyColumn(
+        modifier = Modifier
+            .clipToBounds()
+            .padding(horizontal = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        state = rememberLazyListState()
+    ) {
+        item {
+            Spacer(modifier = Modifier.height(0.dp))
+        }
+        item {
+            ProfileAboutMap(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp)
+            )
+        }
+        item {
+            Text(
+                text = aboutText,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Justify
+            )
+        }
+    }
+}
+
+@Composable
+fun ProfileAboutMap(modifier: Modifier = Modifier) {
+    MapView(
+        modifier = modifier.clip(RoundedCornerShape(6.dp)),
+        currentLocation = LatLng(40.71, -74.00),
+        properties = MapProperties(maxZoomPreference = 14.5f, minZoomPreference = 14.5f),
+        uiSettings = MapUiSettings(zoomControlsEnabled = false, zoomGesturesEnabled = false),
+        onMapLoad = {}
+    ) {
+        Circle(
+            center = LatLng(40.71, -74.00),
+            radius = 125.0,
+            fillColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.63f),
+            strokeWidth = 0f
+        )
+    }
+}
+
 @Composable
 fun ProfileTab(
     modifier: Modifier = Modifier,
@@ -184,10 +248,10 @@ fun ProfileTab(
     CompositionLocalProvider(
         LocalRippleTheme provides ClearRippleTheme
     ) {
-        Tab(modifier = modifier, selected = selected, onClick = onClick,) {
+        Tab(modifier = modifier, selected = selected, onClick = onClick) {
             Text(
                 text = text,
-                fontSize = 16.sp,
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = if (selected) FontWeight.Black else FontWeight.Light
             )
         }
