@@ -74,5 +74,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.serialization}")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${versions.serializationConverter}")
     implementation("io.coil-kt:coil-compose:${versions.coil}")
-    implementation("com.google.accompanist:accompanist-permissions:${versions.accompanistPermissions}")
+    implementation("com.google.accompanist:accompanist-permissions:${versions.accompanist}")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:${versions.accompanist}")
 }

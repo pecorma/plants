@@ -20,8 +20,7 @@ ext {
     jvmTarget = '1.8'
 
     versions = [
-            accompanist            : '0.24.5-alpha',
-            accompanistPermissions : '0.24.7-alpha',
+            accompanist            : '0.24.7-alpha',
             appcompat              : '1.4.1',
             coil                   : '2.0.0-rc03',
             compose                : '1.2.0-alpha08',
@@ -66,7 +65,8 @@ subprojects {
                 compileOptions.targetCompatibility JavaVersion.VERSION_1_8
 
                 composeOptions {
-                    kotlinCompilerExtensionVersion "${rootProject.ext.versions.compose}"
+                    kotlinCompilerExtensionVersion '1.2.0-alpha08'
+                    kotlinCompilerVersion '1.6.20'
                 }
 
                 packagingOptions {
@@ -98,6 +98,7 @@ subprojects {
             freeCompilerArgs += '-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi'
             freeCompilerArgs += '-opt-in=com.google.accompanist.pager.ExperimentalPagerApi'
             freeCompilerArgs += '-opt-in=com.google.accompanist.permissions.ExperimentalPermissionsApi'
+            freeCompilerArgs += '-opt-in=androidx.compose.material3.ExperimentalMaterial3Api'
         }
     }
 
