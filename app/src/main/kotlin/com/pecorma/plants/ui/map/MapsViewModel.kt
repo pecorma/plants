@@ -57,10 +57,12 @@ class MapsViewModel @Inject constructor(
                         setState(oldState.copy(isMapLoading = event.isLoading))
 
                     is MapEvent.OnLocationChange ->
-                        setState(oldState.copy(
-                            isLocationLoading = event.currentLocation == null,
-                            currentLocation = event.currentLocation ?: LatLng(40.71, -74.00)
-                        ))
+                        setState(
+                            oldState.copy(
+                                isLocationLoading = event.currentLocation == null,
+                                currentLocation = event.currentLocation ?: LatLng(40.71, -74.00)
+                            )
+                        )
                 }
             }
         }
@@ -77,7 +79,7 @@ data class MapState(
         fun initial() = MapState(
             isMapLoading = true,
             isLocationLoading = true,
-            currentLocation = LatLng(40.71, 74.00)
+            currentLocation = LatLng(40.71, -74.00)
         )
     }
 }
