@@ -76,4 +76,9 @@ dependencies {
     implementation("io.coil-kt:coil-compose:${versions.coil}")
     implementation("com.google.accompanist:accompanist-permissions:${versions.accompanist}")
     implementation("com.google.accompanist:accompanist-systemuicontroller:${versions.accompanist}")
+
+    kapt("androidx.room:room-compiler:${versions.room}")
+    implementation("androidx.room:room-ktx:${versions.room}")
+    implementation("androidx.room:room-common:${versions.room}")
+    implementation("androidx.room:room-runtime:${versions.room}")
 }
